@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 public class GameBehaviour : MonoBehaviour 
 {
+    public enum ParticipantsOfGame { Player,Enemy}
+    
+
+
     private Player _player;
     private BallBehaviour _ball;
     private Text _whoThrowsText;
@@ -23,9 +27,11 @@ public class GameBehaviour : MonoBehaviour
     public List<GameObject> ballsInScene= new List<GameObject>();
 
    
+    private static int _roundsCount;
     public bool PlayerHitsFirst { get; private set; }
     public bool RoundHasBegan { get; set; } = false;
     public bool RoundIsOver { get; private set; }
+    public static ParticipantsOfGame NextRoundBeginner { get; set; }
  
 
     private static string _lastTouched;
@@ -46,6 +52,11 @@ public class GameBehaviour : MonoBehaviour
 
       ChooseRandomEnvironment();
        RoundIsOver = false;
+
+
+
+
+        Debug.Log(NextRoundBeginner.ToString() + "Раунд номер " +_roundsCount);
     }
 
     private void Start()
@@ -61,7 +72,18 @@ public class GameBehaviour : MonoBehaviour
         _doubleTouchTextObject = GameObject.Find("Double_Touch_Text");
         _winTextObject = GameObject.Find("Win_Text");
 
-        ShowWhoThrowsText(ChooseRoundBeginner());
+
+
+        if (_roundsCount == 0) ShowWhoThrowsText(ChooseGameBeginner());
+        else
+        {
+           
+            ShowWhoThrowsText(NextRoundBeginner);
+            
+        }
+
+     
+
         DisableOutText();
         DisableTouchingNetText();
         DisableDoubleTouchText();
@@ -88,36 +110,41 @@ public class GameBehaviour : MonoBehaviour
 
     private void RestartLevel()
     {
+        _roundsCount++;
         SceneManager.LoadScene(1);
+       
     }
     private void BackToMainMenu()
     {
+        _roundsCount = 0;
         ScoreManager.ResetScores();
         SceneManager.LoadScene(0);
     }
-    private bool ChooseRoundBeginner()
+    private ParticipantsOfGame ChooseGameBeginner()
     {
         int playerNumber = 1;
         int enemyNumber = 3;
         int rdmNumber = Random.Range(playerNumber, enemyNumber);
        
-        PlayerHitsFirst = (rdmNumber == playerNumber) ? true : false;
+        NextRoundBeginner = (rdmNumber == playerNumber) ? ParticipantsOfGame.Player : ParticipantsOfGame.Enemy;
 
-        return PlayerHitsFirst;
+        return NextRoundBeginner;
+
     }
     private void ChooseRandomEnvironment()
     {
         int env  = Random.Range(0, environments.Count);
        environments[env].gameObject.SetActive(true);
     }
-    private void ShowWhoThrowsText(bool playerHitsFirst)
+  
+    private void ShowWhoThrowsText(ParticipantsOfGame nameOfParticipant)
     {
-        if (playerHitsFirst == true)
+        if (nameOfParticipant == ParticipantsOfGame.Player)
         {
             _whoThrowsText.text = "PLAYER HITS FIRST";
             _whoThrowsText.color = new Color(0.6f, 1f, 1f);
         }
-        else
+        else if(nameOfParticipant == ParticipantsOfGame.Enemy)
         {
             _whoThrowsText.text = "ENEMY HITS FIRST";
             _whoThrowsText.color = new Color(1f, 0.63f, 0.63f);
@@ -218,10 +245,12 @@ public class GameBehaviour : MonoBehaviour
             switch (LastTouched)
             {
                 case "Player":
+                    NextRoundBeginner = ParticipantsOfGame.Enemy;
                     doubleTouchText.color = new Color(0.6f, 1f, 1f);
                     break;
 
                 case "Enemy":
+                    NextRoundBeginner = ParticipantsOfGame.Player;
                     doubleTouchText.color = new Color(1f, 0.63f, 0.63f);
                     break;
             }

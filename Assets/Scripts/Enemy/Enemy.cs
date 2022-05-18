@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     protected float _sideMovementBound, _horizontalMovementBound, _verticalMovementBound;
    
     [SerializeField] protected GameObject _ballPrefab;
-    protected GameBehaviour _gameBahaviour;
+    protected GameBehaviour _gameBehaviour;
     protected Animator _animator; 
     protected GameObject _ballClone;
     
@@ -26,14 +26,14 @@ public class Enemy : MonoBehaviour
     }
     protected void InitializeReferences()
     {
-        _gameBahaviour = GameObject.Find("Game Behaviour").GetComponent<GameBehaviour>();
+        _gameBehaviour = GameObject.Find("Game Behaviour").GetComponent<GameBehaviour>();
         _animator = GetComponent<Animator>();
        
     }
     protected void SpawnBall()
     {
       GameObject ball = Instantiate(_ballPrefab, transform.position, _ballPrefab.transform.rotation);
-        _gameBahaviour.ballsInScene.Add(ball);
+        _gameBehaviour.ballsInScene.Add(ball);
 
     }
     public void StartHitAnimation()

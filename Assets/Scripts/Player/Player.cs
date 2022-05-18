@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] protected GameObject _ballPrefab;
     protected Rigidbody _rb;
-    protected GameBehaviour _gameBahaviour;
+    protected GameBehaviour _gameBehaviour;
     protected FixedJoystick _movementJoystick;
     protected Animator _animator;
     protected HitJoystick _hitButton;
@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
     }
     protected void InitializeReferences()
     {
-        _gameBahaviour = GameObject.Find("Game Behaviour").GetComponent<GameBehaviour>();
+        _gameBehaviour = GameObject.Find("Game Behaviour").GetComponent<GameBehaviour>();
         _movementJoystick = GameObject.Find("Movement_Joystick").GetComponent<FixedJoystick>();
         _hitButton = GameObject.Find("Hit_Joystick").GetComponent<HitJoystick>();
         _hitJoystick = GameObject.Find("Hit_Joystick").GetComponent<VariableJoystick>();
@@ -48,7 +48,7 @@ public class Player : MonoBehaviour
     protected void SpawnBall()
     {
        GameObject ball = Instantiate(_ballPrefab, transform.position, _ballPrefab.transform.rotation);
-        _gameBahaviour.ballsInScene.Add(ball);
+        _gameBehaviour.ballsInScene.Add(ball);
     }
     protected void StartHitAnimation()
     {

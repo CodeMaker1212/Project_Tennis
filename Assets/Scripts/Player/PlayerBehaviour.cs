@@ -13,7 +13,7 @@ public class PlayerBehaviour :Player
         SubscribeToHitButtonEvents();
 
 
-        if (_gameBahaviour.PlayerHitsFirst == true)
+        if (GameBehaviour.NextRoundBeginner == GameBehaviour.ParticipantsOfGame.Player)
         SpawnBall();
 
     }
@@ -21,7 +21,7 @@ public class PlayerBehaviour :Player
 
     private void Update()
     {
-        switch (_gameBahaviour.RoundHasBegan == true)
+        switch (_gameBehaviour.RoundHasBegan == true)
         {
             case true:
                 Move();

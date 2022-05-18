@@ -9,7 +9,7 @@ using UnityEngine;
         InitializeBounds(7f, 9f,0.7f);
         InitializeReferences();
 
-        if (_gameBahaviour.PlayerHitsFirst == false)
+        if (GameBehaviour.NextRoundBeginner == GameBehaviour.ParticipantsOfGame.Enemy)
         {
             SpawnBall();
             Invoke("StartHitAnimation", 2f);
@@ -19,7 +19,7 @@ using UnityEngine;
 
     private void Update()
     {
-        switch (_gameBahaviour.RoundHasBegan == true)
+        switch (_gameBehaviour.RoundHasBegan == true)
         {
             case true:
                 Move();

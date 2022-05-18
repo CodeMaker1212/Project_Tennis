@@ -46,8 +46,6 @@ public class Ball: MonoBehaviour
             TakeHit(_player.CalculateHitForces());
         }
         else _rb.velocity = -_rb.velocity / 2f;
-
-      //  GameBehaviour.LastHit = "Player";
     }
     protected void BounceOffEnemy()
     {

@@ -115,12 +115,12 @@ public class GameBehaviour : MonoBehaviour
         if (playerHitsFirst == true)
         {
             _whoThrowsText.text = "PLAYER HITS FIRST";
-            _whoThrowsText.color = new Color(0, 0.0775275f, 0.5943396f);
+            _whoThrowsText.color = new Color(0.6f, 1f, 1f);
         }
         else
         {
             _whoThrowsText.text = "ENEMY HITS FIRST";
-            _whoThrowsText.color = new Color(0.5283019f, 0, 0.01586957f);
+            _whoThrowsText.color = new Color(1f, 0.63f, 0.63f);
         }
         Invoke("DisableWhoThrowsText", 2f);
     }
@@ -136,9 +136,9 @@ public class GameBehaviour : MonoBehaviour
         switch (objectName)
         {
             case "Player":
-                outText.color = new Color(0, 0.0775275f, 0.5943396f);
+                outText.color = new Color(0.6f, 1f, 1f);
                 break;
-            case "Enemy": outText.color = new Color(0.5283019f, 0, 0.01586957f);
+            case "Enemy": outText.color = new Color(1f, 0.63f, 0.63f);
                 break;
         }
 
@@ -161,10 +161,10 @@ public class GameBehaviour : MonoBehaviour
         switch (objectName)
         {
             case "Player":
-                touchingNetText.color = new Color(0, 0.0775275f, 0.5943396f);
+                touchingNetText.color = new Color(0.6f, 1f, 1f);
                 break;
             case "Enemy":
-                touchingNetText.color = new Color(0.5283019f, 0, 0.01586957f);
+                touchingNetText.color = new Color(1f, 0.63f, 0.63f);
                 break;
         }
 
@@ -218,11 +218,11 @@ public class GameBehaviour : MonoBehaviour
             switch (LastTouched)
             {
                 case "Player":
-                    doubleTouchText.color = new Color(0, 0.0775275f, 0.5943396f);
+                    doubleTouchText.color = new Color(0.6f, 1f, 1f);
                     break;
 
                 case "Enemy":
-                    doubleTouchText.color = new Color(0.5283019f, 0, 0.01586957f);
+                    doubleTouchText.color = new Color(1f, 0.63f, 0.63f);
                     break;
             }
 
@@ -261,12 +261,12 @@ public class GameBehaviour : MonoBehaviour
         {
             case "Player":
                 winText.text = "PlAYER WON!";
-                winText.color = new Color(0, 0.0775275f, 0.5943396f);
+                winText.color = new Color(0.6f, 1f, 1f);
                 break;
 
             case "Enemy":
                 winText.text = "ENEMY WON!";
-                winText.color = new Color(0.5283019f, 0, 0.01586957f);
+                winText.color = new Color(1f, 0.63f, 0.63f);
                 break;
         }
       

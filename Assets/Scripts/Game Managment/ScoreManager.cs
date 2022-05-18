@@ -34,4 +34,10 @@ public static class ScoreManager
                 break;
         }
     }
+    public static void ResetScores()
+    {
+        PlayerScores = 0;
+        EnemyScores = 0;
+    }
+
 }

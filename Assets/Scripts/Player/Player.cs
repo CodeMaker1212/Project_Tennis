@@ -4,15 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
-{  
+{
+    [SerializeField] protected float _moveSpeed = 11f;
+    [SerializeField] protected float _turnSpeed = 200f;
+
     protected readonly float _forceMultiplier = 8f;
     protected readonly float _sideforceMultiplier = 6f;
     protected readonly float _directHitJoystickBound = 0.90f;
     protected float _directHitForceMultiplier = 4f;
     protected float _directHitUpMultiplier = 0.3f;
-    protected float _sideMovementBound, _horizontalMovementBound, _turnBound;
-    [SerializeField] protected float _moveSpeed;
-    [SerializeField] protected float _turnSpeed;
+    protected float _sideMovementBound, _horizontalMovementBound, _turnBound;   
 
     [SerializeField] protected GameObject _ballPrefab;
     protected Rigidbody _rb;

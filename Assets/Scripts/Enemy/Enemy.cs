@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] protected float _moveSpeed = 3f;
+
     protected readonly float _forceMultiplier = 2f;
     protected float _sideMovementBound, _horizontalMovementBound, _verticalMovementBound;
-    [SerializeField] protected float _moveSpeed;
-
+   
     [SerializeField] protected GameObject _ballPrefab;
     protected GameBehaviour _gameBahaviour;
     protected Animator _animator; 

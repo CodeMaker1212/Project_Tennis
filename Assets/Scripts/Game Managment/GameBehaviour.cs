@@ -40,7 +40,10 @@ public class GameBehaviour : MonoBehaviour
         }
     }
     private void Awake()
-    {    
+    {
+
+        Application.targetFrameRate = 60;
+
       ChooseRandomEnvironment();
        RoundIsOver = false;
     }
@@ -89,6 +92,7 @@ public class GameBehaviour : MonoBehaviour
     }
     private void BackToMainMenu()
     {
+        ScoreManager.ResetScores();
         SceneManager.LoadScene(0);
     }
     private bool ChooseRoundBeginner()
@@ -172,23 +176,26 @@ public class GameBehaviour : MonoBehaviour
     public void ShowWhoGetsPointText(string objectName)
     {
         if(ScoreManager.PlayerScores < ScoreManager.MaxScores && ScoreManager.EnemyScores < ScoreManager.MaxScores)
-
-        _whoGetsPointTextObject.gameObject.SetActive(true);
-
-        Text whoGetsPointText = _whoGetsPointTextObject.GetComponent<Text>();
-
-        switch (objectName)
         {
-            case "Player":
-                whoGetsPointText.text = "PLAYER GETS A POINT!";
-                whoGetsPointText.color = new Color(0, 0.0775275f, 0.5943396f);
-                break;
 
-            case "Enemy":
-                whoGetsPointText.text = "ENEMY GETS A POINT!";
-                whoGetsPointText.color = new Color(0.5283019f, 0, 0.01586957f);
-                break;  
-        }
+            _whoGetsPointTextObject.gameObject.SetActive(true);
+
+            Text whoGetsPointText = _whoGetsPointTextObject.GetComponent<Text>();
+
+            switch (objectName)
+            {
+                case "Player":
+                    whoGetsPointText.text = "PLAYER GETS A POINT!";
+                    whoGetsPointText.color = new Color(0, 0.0775275f, 0.5943396f);
+                    break;
+
+                case "Enemy":
+                    whoGetsPointText.text = "ENEMY GETS A POINT!";
+                    whoGetsPointText.color = new Color(0.5283019f, 0, 0.01586957f);
+                    break;
+            }
+
+        } 
 
         Invoke("DisableWhoGetsPointText", 2f);
         Invoke("RestartLevel", 2f);
@@ -262,6 +269,7 @@ public class GameBehaviour : MonoBehaviour
                 winText.color = new Color(0.5283019f, 0, 0.01586957f);
                 break;
         }
+      
         Invoke("BackToMainMenu", 2f);
     }
     private void DisableWinText() => _winTextObject.gameObject.SetActive(false);

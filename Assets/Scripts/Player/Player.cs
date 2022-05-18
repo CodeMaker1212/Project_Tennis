@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] protected float _moveSpeed = 11f;
+    [SerializeField] protected float _moveSpeed = 10f;
     [SerializeField] protected float _turnSpeed = 200f;
 
     protected readonly float _forceMultiplier = 8f;

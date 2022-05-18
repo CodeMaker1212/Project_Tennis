@@ -3227,7 +3227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 649428240b5a58645841eff80a81d633, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 11
+  _moveSpeed: 10
   _turnSpeed: 200
   _ballPrefab: {fileID: 2691273702464373515, guid: 511deb8b1a3d9f9468d8db871a1ce260, type: 3}
 --- !u!95 &1750162599

@@ -152,8 +152,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.6829014, y: 5.056467, z: 21.439068}
-  m_Center: {x: 10, y: 2.5484037, z: -0.023560047}
+  m_Size: {x: 0, y: 6, z: 21.439068}
+  m_Center: {x: 8.65855, y: 3, z: -0.02355957}
 --- !u!65 &776822
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -165,8 +165,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.75720215, y: 5.056467, z: 21.436241}
-  m_Center: {x: -10, y: 2.5484037, z: -0.0057053566}
+  m_Size: {x: 0, y: 6, z: 21.436241}
+  m_Center: {x: -8.621399, y: 3, z: -0.0057048798}
 --- !u!4 &776823
 Transform:
   m_ObjectHideFlags: 0
@@ -210,8 +210,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 18.31, y: 7.2956276, z: 1.0231018}
-  m_Center: {x: 0.013591766, y: 3.6307702, z: 0}
+  m_Size: {x: 16.34, y: 7.2956276, z: 0.60809803}
+  m_Center: {x: 0.013591766, y: 3.6307702, z: 0.20750189}
 --- !u!4 &25727016
 Transform:
   m_ObjectHideFlags: 0
@@ -917,11 +917,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2a94d70d632def94d86a3249fadee90b, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9961947
+      value: 0.9914449
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2a94d70d632def94d86a3249fadee90b, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.08715578
+      value: -0.13052624
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2a94d70d632def94d86a3249fadee90b, type: 3}
       propertyPath: m_LocalRotation.y
@@ -933,7 +933,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2a94d70d632def94d86a3249fadee90b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -10
+      value: -15
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2a94d70d632def94d86a3249fadee90b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -3276,8 +3276,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 18.31, y: 7.2956276, z: 1.0231018}
-  m_Center: {x: 0.013591766, y: 3.6307702, z: 0}
+  m_Size: {x: 16.34, y: 7.2956276, z: 0.46965408}
+  m_Center: {x: 0.013591766, y: 3.6307702, z: -0.48}
 --- !u!4 &1816790750
 Transform:
   m_ObjectHideFlags: 0

@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using participants = ProjectEnums.Enums.ParticipantsOfGame; 
 
 public class GameBehaviour : MonoBehaviour 
 {
-    public enum ParticipantsOfGame { Player,Enemy}
-    
-
-
     private Player _player;
     private BallBehaviour _ball;
     private Text _whoThrowsText;
@@ -31,7 +28,7 @@ public class GameBehaviour : MonoBehaviour
     public bool PlayerHitsFirst { get; private set; }
     public bool RoundHasBegan { get; set; } = false;
     public bool RoundIsOver { get; private set; }
-    public static ParticipantsOfGame NextRoundBeginner { get; set; }
+    public static participants NextRoundBeginner { get; set; }
  
 
     private static string _lastTouched;
@@ -120,13 +117,13 @@ public class GameBehaviour : MonoBehaviour
         ScoreManager.ResetScores();
         SceneManager.LoadScene(0);
     }
-    private ParticipantsOfGame ChooseGameBeginner()
+    private participants ChooseGameBeginner()
     {
         int playerNumber = 1;
         int enemyNumber = 3;
         int rdmNumber = Random.Range(playerNumber, enemyNumber);
        
-        NextRoundBeginner = (rdmNumber == playerNumber) ? ParticipantsOfGame.Player : ParticipantsOfGame.Enemy;
+        NextRoundBeginner = (rdmNumber == playerNumber) ? participants.Player :participants.Enemy;
 
         return NextRoundBeginner;
 
@@ -137,14 +134,14 @@ public class GameBehaviour : MonoBehaviour
        environments[env].gameObject.SetActive(true);
     }
   
-    private void ShowWhoThrowsText(ParticipantsOfGame nameOfParticipant)
+    private void ShowWhoThrowsText(participants nameOfParticipant)
     {
-        if (nameOfParticipant == ParticipantsOfGame.Player)
+        if (nameOfParticipant == participants.Player)
         {
             _whoThrowsText.text = "PLAYER HITS FIRST";
             _whoThrowsText.color = new Color(0.6f, 1f, 1f);
         }
-        else if(nameOfParticipant == ParticipantsOfGame.Enemy)
+        else if(nameOfParticipant == participants.Enemy)
         {
             _whoThrowsText.text = "ENEMY HITS FIRST";
             _whoThrowsText.color = new Color(1f, 0.63f, 0.63f);
@@ -202,6 +199,8 @@ public class GameBehaviour : MonoBehaviour
     private void DisableTouchingNetText() => _touchingNetTextObject.gameObject.SetActive(false);
     public void ShowWhoGetsPointText(string objectName)
     {
+        RoundIsOver = true;
+
         if(ScoreManager.PlayerScores < ScoreManager.MaxScores && ScoreManager.EnemyScores < ScoreManager.MaxScores)
         {
 
@@ -231,7 +230,7 @@ public class GameBehaviour : MonoBehaviour
 
     private void ShowDoubleTouchText()
     {
-        if (RoundHasBegan == true)
+        if (RoundHasBegan == true && RoundIsOver == false)
         {
             RoundHasBegan = false;
             RoundIsOver = true;
@@ -245,12 +244,12 @@ public class GameBehaviour : MonoBehaviour
             switch (LastTouched)
             {
                 case "Player":
-                    NextRoundBeginner = ParticipantsOfGame.Enemy;
+                    NextRoundBeginner = participants.Enemy;
                     doubleTouchText.color = new Color(0.6f, 1f, 1f);
                     break;
 
                 case "Enemy":
-                    NextRoundBeginner = ParticipantsOfGame.Player;
+                    NextRoundBeginner = participants.Player;
                     doubleTouchText.color = new Color(1f, 0.63f, 0.63f);
                     break;
             }

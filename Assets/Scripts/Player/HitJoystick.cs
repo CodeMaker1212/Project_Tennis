@@ -16,6 +16,7 @@ public class HitJoystick : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
     public float HandleHorizontalPosition { get; private set; }
     public float ClickTime { get; private set; }
     private bool _isClicked = false;
+    public bool PreparingForHit { get; private set; } = false;
 
     private void Start()
     {
@@ -29,6 +30,8 @@ public class HitJoystick : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
     }
     public void OnPointerDown(PointerEventData eventData)
     {
+        PreparingForHit = true;
+
         ClickTime = 0;
         _isClicked = true;
         ButtonClickStarted();       
@@ -36,6 +39,8 @@ public class HitJoystick : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        PreparingForHit=false;
+
         Invoke("ResetHandlePositionData", 0.2f);
         _isClicked = false;
         ButtonClicked();       

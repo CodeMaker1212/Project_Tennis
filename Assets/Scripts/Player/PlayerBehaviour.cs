@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using participants = ProjectEnums.Enums.ParticipantsOfGame;
 
 
 
@@ -13,7 +14,7 @@ public class PlayerBehaviour :Player
         SubscribeToHitButtonEvents();
 
 
-        if (GameBehaviour.NextRoundBeginner == GameBehaviour.ParticipantsOfGame.Player)
+        if (GameBehaviour.NextRoundBeginner == participants.Player)
         SpawnBall();
 
     }
@@ -33,6 +34,10 @@ public class PlayerBehaviour :Player
                 RestrictMovement();
                 break;
         }
+
+        if (_hitButton.PreparingForHit == true)
+            PrepareForHit();
+       
 
     }
 

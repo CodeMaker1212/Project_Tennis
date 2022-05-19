@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using participants = ProjectEnums.Enums.ParticipantsOfGame;
 
 public class BallBehaviour : Ball
 {
@@ -15,9 +16,9 @@ public class BallBehaviour : Ball
     {
         if(_gameBehaviour.RoundHasBegan == false && _gameBehaviour.RoundIsOver == false)
         {
-            if (_gameBehaviour.PlayerHitsFirst == true || GameBehaviour.NextRoundBeginner == GameBehaviour.ParticipantsOfGame.Player)
+            if (_gameBehaviour.PlayerHitsFirst == true || GameBehaviour.NextRoundBeginner == participants.Player)
                 FollowThePlayer();
-            else if(_gameBehaviour.PlayerHitsFirst == false|| GameBehaviour.NextRoundBeginner == GameBehaviour.ParticipantsOfGame.Enemy)
+            else if(_gameBehaviour.PlayerHitsFirst == false|| GameBehaviour.NextRoundBeginner == participants.Enemy)
                 FollowTheEnemy();
         }
 
@@ -58,14 +59,14 @@ public class BallBehaviour : Ball
 
                     if (GameBehaviour.LastTouched == "Player")
                     {
-                        GameBehaviour.NextRoundBeginner = GameBehaviour.ParticipantsOfGame.Enemy;
+                        GameBehaviour.NextRoundBeginner = participants.Enemy;
                         ScoreManager.DeleteScoreFrom("Player");
                         _gameBehaviour.ShowTouchingNetText("Player");
                         
                     }
                     else if (GameBehaviour.LastTouched == "Enemy")
                     {
-                        GameBehaviour.NextRoundBeginner = GameBehaviour.ParticipantsOfGame.Player;
+                        GameBehaviour.NextRoundBeginner = participants.Player;
                         ScoreManager.DeleteScoreFrom("Enemy");
                         _gameBehaviour.ShowTouchingNetText("Enemy");
                        
@@ -79,7 +80,7 @@ public class BallBehaviour : Ball
 
 
             case "Enemy_Border":
-                GameBehaviour.NextRoundBeginner = GameBehaviour.ParticipantsOfGame.Player;
+                GameBehaviour.NextRoundBeginner = participants.Player;
                 ScoreManager.AddScoreTo("Player");
                 _gameBehaviour.ShowWhoGetsPointText("Player");
                  break;
@@ -87,7 +88,7 @@ public class BallBehaviour : Ball
 
 
             case "Player_Border":
-                GameBehaviour.NextRoundBeginner = GameBehaviour.ParticipantsOfGame.Enemy;
+                GameBehaviour.NextRoundBeginner = participants.Enemy;
                 ScoreManager.AddScoreTo("Enemy");
                 _gameBehaviour.ShowWhoGetsPointText("Enemy");
                 break;
@@ -101,14 +102,14 @@ public class BallBehaviour : Ball
 
                     if (GameBehaviour.LastTouched == "Player")
                     {
-                        GameBehaviour.NextRoundBeginner = GameBehaviour.ParticipantsOfGame.Enemy;
+                        GameBehaviour.NextRoundBeginner = participants.Enemy;
                         ScoreManager.DeleteScoreFrom("Player");
                         _gameBehaviour.ShowOutText("Player");
                        
                     }
                     else if (GameBehaviour.LastTouched == "Enemy")
                     {
-                        GameBehaviour.NextRoundBeginner = GameBehaviour.ParticipantsOfGame.Player;
+                        GameBehaviour.NextRoundBeginner = participants.Player;
                         ScoreManager.DeleteScoreFrom("Enemy");
                         _gameBehaviour.ShowOutText("Enemy");
                        

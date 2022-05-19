@@ -44,17 +44,28 @@ public class Player : MonoBehaviour
         _animator = GetComponent<Animator>();
         _ball = _ballPrefab.GetComponent<Ball>();
 
+        _hitButton.ButtonClickStarted += PrepareForHit;
+
     }
     protected void SpawnBall()
     {
        GameObject ball = Instantiate(_ballPrefab, transform.position, _ballPrefab.transform.rotation);
         _gameBehaviour.ballsInScene.Add(ball);
     }
+    protected void PrepareForHit()
+    {
+       
+        transform.Rotate(new Vector3(-_forceIndicator.fillAmount * Time.deltaTime, 0,0),  _forceIndicator.fillAmount, Space.World);
+        if (transform.rotation.x < -_turnBound)
+            transform.rotation = new Quaternion(-_turnBound, transform.rotation.y, transform.rotation.z, 1);
+
+    }
     protected void StartHitAnimation()
     {
         _animator.SetTrigger("Hit_Trigger");
         HasHitAttempt = true;
-        Invoke("FinishHitAttempt", 0.2f);
+        Invoke("FinishHitAttempt", 0.3f);
+        Invoke("ResetRotation", 0.3f);
     }  
     protected void SubscribeToHitButtonEvents() => _hitButton.ButtonClicked += StartHitAnimation;
     protected void Move() => transform.Translate(new Vector3(_movementJoystick.Horizontal * _moveSpeed * Time.fixedDeltaTime, 0,0), Space.World);
@@ -64,6 +75,12 @@ public class Player : MonoBehaviour
         if (transform.position.x < -_sideMovementBound) transform.position = new Vector3(-_sideMovementBound, transform.position.y, transform.position.z);
         if (transform.position.z > _horizontalMovementBound) transform.position = new Vector3(transform.position.x, transform.position.y, _horizontalMovementBound);
         if (transform.position.z < _horizontalMovementBound) transform.position = new Vector3(transform.position.x, transform.position.y, _horizontalMovementBound);
+    }
+
+    protected void ResetRotation()
+    {
+        transform.localRotation = new Quaternion(0.1f,transform.rotation.y, transform.rotation.z,1);
+
     }
     protected void Turn()
     {

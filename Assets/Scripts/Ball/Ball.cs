@@ -58,7 +58,7 @@ public class Ball: MonoBehaviour
 
             TakeHit(_enemy.CalculateHitForces());
 
-          //  GameBehaviour.LastHit = "Enemy";
+          
         }
     }
     protected void BounceOffNet() => _rb.velocity = -_rb.velocity / 3f;

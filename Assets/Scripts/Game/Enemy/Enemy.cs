@@ -23,7 +23,8 @@ public class Enemy : MonoBehaviour
     protected GameBehaviour _gameBehaviour;
     protected Animator _animator; 
     protected GameObject _ballClone;
-    
+
+    public float DistanceToBall;
     public difficulty Difficulty { get; private set; }
     public float BallVisibilityPoint { get; private set; }
 
@@ -66,7 +67,7 @@ public class Enemy : MonoBehaviour
     }
     protected void SpawnBall()
     {
-      GameObject ball = Instantiate(_ballPrefab, transform.position, _ballPrefab.transform.rotation);
+      GameObject ball = Instantiate(_ballPrefab, transform.position + new Vector3(0,2f,0.2f), _ballPrefab.transform.rotation);
         _gameBehaviour.ballsInScene.Add(ball);
 
     }
@@ -74,7 +75,7 @@ public class Enemy : MonoBehaviour
     {
         _animator.SetTrigger("Enemy_Hit_Trigger");
         HasHitAttempt = true;
-        Invoke("FinishHitAttempt", 0.2f);
+        Invoke("FinishHitAttempt", 0.5f);
     }
     protected void Move()
     {
@@ -88,7 +89,9 @@ public class Enemy : MonoBehaviour
     {
         if (transform.position.x > _sideMovementBound) transform.position = new Vector3(_sideMovementBound, transform.position.y, transform.position.z);
         if (transform.position.x < -_sideMovementBound) transform.position = new Vector3(-_sideMovementBound, transform.position.y, transform.position.z);
+
         if (transform.position.y > _verticalMovementBound || transform.position.y < _verticalMovementBound) transform.position = new Vector3(transform.position.x, _verticalMovementBound, transform.position.z);
+        
         if (transform.position.z > _horizontalMovementBound) transform.position = new Vector3(transform.position.x, transform.position.y, _horizontalMovementBound);
         if (transform.position.z < _horizontalMovementBound) transform.position = new Vector3(transform.position.x, transform.position.y, _horizontalMovementBound);
     }
@@ -97,7 +100,7 @@ public class Enemy : MonoBehaviour
     {
         if(Difficulty == difficulty.EASY)
         {
-            float sideForce = Random.Range(-2, 3) *_easyforceMultiplier;
+            float sideForce = Random.Range(-1, 2) *_easyforceMultiplier;
             float upForce = Random.Range(3, 5) * _easyforceMultiplier;
             float forwardForce = -4 * _easyforceMultiplier;
 
@@ -106,9 +109,13 @@ public class Enemy : MonoBehaviour
         }
         else  
         {
-            float sideForce = (transform.position.x == _horizontalMovementBound || transform.position.x == -_horizontalMovementBound) ? 0 : Random.Range(-1, 2);
-            float upForce = (transform.position.x > 2f || transform.position.x <-2f) ?  _hardforceMultiplier :Random.Range(2, 3) *_hardforceMultiplier;
-            float forwardForce = (transform.position.x >2f || transform.position.x <-2f) ? -5 * _hardforceMultiplier:-3 * _hardforceMultiplier;
+            float sideForce = 0;
+            if (transform.position.x > 5f) sideForce = 2f;
+            else if (transform.position.x < -5f) sideForce = -2f;
+            else sideForce = Random.Range(-1.5f, 2.5f);
+                
+            float upForce = (transform.position.x > 3f || transform.position.x <-3f) ?  _hardforceMultiplier :Random.Range(2, 3) *_hardforceMultiplier;
+            float forwardForce = (transform.position.x >3f || transform.position.x <-3f) ? -5 * _hardforceMultiplier:-2 * _hardforceMultiplier;
 
             float[] forces = { sideForce, upForce, forwardForce };
             return forces;
@@ -116,10 +123,5 @@ public class Enemy : MonoBehaviour
     }
     
 
-    private void FinishHitAttempt()
-    {
-        HasHitAttempt = false;
-    }
-
-
+    protected void FinishHitAttempt() => HasHitAttempt = false;
 }

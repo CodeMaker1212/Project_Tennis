@@ -5,50 +5,38 @@ using UnityEngine.EventSystems;
 
 
 
-public class HitJoystick : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, IDragHandler
+public class HitJoystick : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, IDragHandler, IBeginDragHandler
 {
     public delegate void HitJoysticknEvent();
     public event HitJoysticknEvent ButtonClicked;
     public event HitJoysticknEvent ButtonClickStarted;
+    public event HitJoysticknEvent ButtonDrag;
 
     private VariableJoystick _varJoystickScript;
 
     public float HandleHorizontalPosition { get; private set; }
-    public float ClickTime { get; private set; }
-    private bool _isClicked = false;
+    public float HandleVerticalPosition { get; private set; }
     public bool PreparingForHit { get; private set; } = false;
+
+    public void OnBeginDrag(PointerEventData eventData) => ButtonDrag();
+    public void OnPointerDown(PointerEventData eventData) => ButtonClickStarted();
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        if (TutorialBehaviour.isIncluded == true && TutorialBehaviour.isCompleted == false)
+            return;
+        else
+        ButtonClicked();
+    }
+    public void OnDrag(PointerEventData eventData)
+    {
+        HandleHorizontalPosition = _varJoystickScript.Horizontal;
+        HandleVerticalPosition = _varJoystickScript.Vertical;
+    }
+
 
     private void Start()
     {
         _varJoystickScript = GetComponent<VariableJoystick>();
     }
-
-    void Update() 
-    {
-        if(_isClicked == true) MarkClickTime();
-
-    }
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        PreparingForHit = true;
-
-        ClickTime = 0;
-        _isClicked = true;
-        ButtonClickStarted();       
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        PreparingForHit=false;
-
-        Invoke("ResetHandlePositionData", 0.2f);
-        _isClicked = false;
-        ButtonClicked();       
-    }
-    private void MarkClickTime() => ClickTime += Time.deltaTime;
-
-    public void OnDrag(PointerEventData eventData) => HandleHorizontalPosition = _varJoystickScript.Horizontal;
-
-    private void ResetHandlePositionData() => HandleHorizontalPosition = 0f;
-    
+   
 }

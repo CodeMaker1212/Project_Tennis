@@ -13,5 +13,11 @@ public class NewGameSettings : MonoBehaviour
     protected void ChooseEnvironment(environments chosenEnvironment) => MainManager.Instance.chosenCourt = chosenEnvironment;
     protected void ChooseDifficulty(difficulty chosenDifficulty) => MainManager.Instance.chosenDifficulty = chosenDifficulty;
     protected void ChooseMaxScores(int chosenMaxScores) => MainManager.Instance.chosenMaxScores = chosenMaxScores;
+    public void EnableTutorial()
+    {
+        if (MainManager.Instance.tutorialEnabled == false)
+        MainManager.Instance.tutorialEnabled = true;
+    }
+   
  
 }

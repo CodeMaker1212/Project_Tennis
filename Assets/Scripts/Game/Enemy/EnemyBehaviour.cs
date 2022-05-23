@@ -17,7 +17,7 @@ class EnemyBehaviour : Enemy
         SetSpeed();
         SetBallVisibility();
 
-        if (GameBehaviour.NextRoundBeginner == participants.Enemy)
+        if (GameBehaviour.NextRoundBeginner == participants.Enemy && TutorialBehaviour.isIncluded == false)
         {
             SpawnBall();
             Invoke("StartHitAnimation", 2f);
@@ -28,6 +28,15 @@ class EnemyBehaviour : Enemy
 
     private void Update()
     {
+        if(_ballClone != null)
+        {
+            DistanceToBall = Vector3.Distance(transform.position, _ballClone.transform.position);
+            Debug.Log(DistanceToBall);
+
+            if (HasHitAttempt == false && DistanceToBall < 2f)
+                StartHitAnimation();
+        }
+        
         switch (_gameBehaviour.RoundHasBegan == true)
         {
             case true:
@@ -40,8 +49,5 @@ class EnemyBehaviour : Enemy
                 RestrictMovement();
                 break;
         }
-
-    }
-
-   
+    }   
 }

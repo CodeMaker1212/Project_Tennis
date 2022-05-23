@@ -7,15 +7,14 @@ public class Ball: MonoBehaviour
 {
     public delegate void DoubleTouchEvent();
 
-    [SerializeField] protected Vector3 _playerOffset = new Vector3(0,2.5f,0.1f);
-    [SerializeField] protected Vector3 _enemyOffset = new Vector3(0, 2.5f, 0.1f);
+    [SerializeField] protected Vector3 _playerOffset;
+    [SerializeField] protected Vector3 _enemyOffset;
 
     protected PlayerBehaviour _player;
     protected Enemy _enemy;
     protected GameBehaviour _gameBehaviour;
     protected Rigidbody _rb;
 
-    public bool IsCollided { get; protected set; }
     public int CourtTouchCount { get; protected set; } = 0;
 
     protected void InitializeReferences()
@@ -26,9 +25,7 @@ public class Ball: MonoBehaviour
         _rb = GetComponent<Rigidbody>();
     }
    
-    
-    protected void FollowThePlayer() => transform.position = _player.transform.position + _playerOffset;
-    protected void FollowTheEnemy() => transform.position = _enemy.transform.position + _enemyOffset;
+ 
     protected void TakeHit(float[] axisForces)
     {
         _rb.useGravity = true;
@@ -49,16 +46,10 @@ public class Ball: MonoBehaviour
     }
     protected void BounceOffEnemy()
     {
-        if (_gameBehaviour.RoundHasBegan == true || _gameBehaviour.PlayerHitsFirst == false)
+        if ( _gameBehaviour.GameBeginner == ProjectEnums.Enums.ParticipantsOfGame.Enemy || GameBehaviour.NextRoundBeginner == ProjectEnums.Enums.ParticipantsOfGame.Enemy)
         {
             _rb.velocity = Vector3.zero;
-
-            if (_enemy.HasHitAttempt == false)
-                _enemy.StartHitAnimation();
-
-            TakeHit(_enemy.CalculateHitForces());
-
-          
+            TakeHit(_enemy.CalculateHitForces());   
         }
     }
     protected void BounceOffNet() => _rb.velocity = -_rb.velocity / 3f;

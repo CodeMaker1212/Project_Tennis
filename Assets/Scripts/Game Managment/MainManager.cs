@@ -10,6 +10,8 @@ public class MainManager : MonoBehaviour
     public environments chosenCourt;
     public difficulty chosenDifficulty;
     public int chosenMaxScores;
+    public bool tutorialEnabled = false;
+
 
     private void Awake()
     {

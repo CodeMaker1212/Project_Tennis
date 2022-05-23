@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using participants = ProjectEnums.Enums.ParticipantsOfGame;
 
 public class ScoreManager: MonoBehaviour
 {
@@ -10,28 +11,28 @@ public class ScoreManager: MonoBehaviour
 
 
     private void SetMaxScores(int chosenMaxScores) => MaxScores = chosenMaxScores;
-    public static void AddScoreTo(string name)
+    public static void AddScoreTo(participants name)
     {
         switch (name)
         {
-           case "Player":
+           case participants.Player:
                 PlayerScores = Mathf.Clamp(PlayerScores + 1, 0, MaxScores);
                 break;
 
-            case "Enemy":
+            case participants.Enemy:
                 EnemyScores = Mathf.Clamp(EnemyScores + 1, 0, MaxScores);
                 break;
         }
     }
-    public static void DeleteScoreFrom(string name)
+    public static void DeleteScoreFrom(participants name)
     {
         switch (name)
         {
-            case "Player":
+            case participants.Player:
                 PlayerScores = Mathf.Clamp(PlayerScores - 1, 0, MaxScores);
                 break;
 
-            case "Enemy":
+            case participants.Enemy:
                 EnemyScores = Mathf.Clamp(EnemyScores - 1, 0, MaxScores);
                 break;
         }

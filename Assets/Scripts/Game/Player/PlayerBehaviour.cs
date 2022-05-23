@@ -9,38 +9,16 @@ public class PlayerBehaviour :Player
 {
     private void Start()
     {
-        InitializeBounds(7f, -9f, 0.20f);
+        InitializeBounds(7f, -9f,0.7f);
         InitializeReferences();
         SubscribeToHitButtonEvents();
 
-
-        if (GameBehaviour.NextRoundBeginner == participants.Player)
+        if (GameBehaviour.NextRoundBeginner == participants.Player || TutorialBehaviour.isIncluded == true)
         SpawnBall();
-
     }
-   
-
     private void Update()
-    {
-        switch (_gameBehaviour.RoundHasBegan == true)
-        {
-            case true:
-                Move();
-                Turn();
-                RestrictMovement();
-                break;
-            case false:
-                
-                RestrictMovement();
-                break;
-        }
-
-        if (_hitButton.PreparingForHit == true)
-            PrepareForHit();
-       
-
+    {      
+        Move();
+        RestrictMovement();
     }
-
-   
-
 }

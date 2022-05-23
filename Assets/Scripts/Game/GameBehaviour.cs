@@ -10,7 +10,6 @@ using environments = ProjectEnums.Enums.Environments;
 
 public class GameBehaviour : MonoBehaviour 
 {
-    private Player _player;
     private BallBehaviour _ball;
     private Text _whoThrowsText;
     private Text _playerScoresText;
@@ -26,26 +25,17 @@ public class GameBehaviour : MonoBehaviour
     public List<GameObject> environments= new List<GameObject>();
     public List<GameObject> ballsInScene= new List<GameObject>();
 
-   
+
     private static int _roundsCount;
-    public bool PlayerHitsFirst { get; private set; }
+    public participants GameBeginner { get; set; }
+    public participants GameWinner { get; private set; }
     public bool RoundHasBegan { get; set; } = false;
     public bool RoundIsOver { get; private set; }
     public static participants NextRoundBeginner { get; set; }
- 
-
-    private static string _lastTouched;
-    public static string LastTouched
-    {
-        get { return _lastTouched; }
-        set
-        {
-            if (value == "Player" || value == "Enemy")
-                _lastTouched = value;
-            else Debug.Log("Последним ударившим могут быть Player или Enemy");
-        }
-    }
-
+    public static participants LastTouched { get; set; }
+   
+    private Color _playerColor = new Color(0.6f, 1f, 1f);
+    private Color _enemyColor = new Color(1f, 0.63f, 0.63f);
 
 
     private void Awake()
@@ -62,20 +52,21 @@ public class GameBehaviour : MonoBehaviour
     {
         InitializeReferences();
 
-        if (_roundsCount == 0) ShowWhoThrowsText(ChooseGameBeginner());
-        else
-        {
-           
-            ShowWhoThrowsText(NextRoundBeginner);
-            
-        }
-
         DisableOutText();
         DisableTouchingNetText();
         DisableDoubleTouchText();
         DisableWinText();
 
         Invoke("InitializeAndSubscribeToBall", 2f);
+
+
+        if (TutorialBehaviour.isIncluded == true)
+            GameBeginner = participants.Player;
+        else
+        {
+            if (_roundsCount == 0) ShowWhoThrowsText(ChooseGameBeginner());
+            else ShowWhoThrowsText(NextRoundBeginner);
+        }     
     }
     private void Update()
     {
@@ -95,7 +86,6 @@ public class GameBehaviour : MonoBehaviour
     }
     private void InitializeReferences()
     {
-        _player = GameObject.Find("Player").GetComponent<Player>();
         _whoThrowsText = GameObject.Find("Who_Throws_Text").GetComponent<Text>();
         _playerScoresText = GameObject.Find("Player_Scores_Text").GetComponent<Text>();
         _enemyScoresText = GameObject.Find("Enemy_Scores_Text").GetComponent<Text>();
@@ -110,16 +100,15 @@ public class GameBehaviour : MonoBehaviour
     private void RestartLevel()
     {
         _roundsCount++;
-        SceneManager.LoadScene("Game");
-       
+        SceneManager.LoadScene("Game");      
     }
-    public void ExitGame() => SceneManager.LoadScene("New_Game_Settings");
-    private void BackToMainMenu()
+    public void ExitGame()
     {
         _roundsCount = 0;
         ScoreManager.ResetScores();
-        SceneManager.LoadScene("Main_Menu");
+        SceneManager.LoadScene("New_Game_Settings");
     }
+   
     private participants ChooseGameBeginner()
     {
         int playerNumber = 1;
@@ -132,21 +121,26 @@ public class GameBehaviour : MonoBehaviour
 
     }
     private void SetEnvironment(environments chosenEnvironment) => environments[(int)chosenEnvironment].gameObject.SetActive(true);
-    private void ShowWhoThrowsText(participants nameOfParticipant)
+    private void ShowWhoThrowsText(participants name)
     {
-        if (nameOfParticipant == participants.Player)
+        if(RoundIsOver == false)
         {
-            _whoThrowsText.text = "PLAYER HITS FIRST";
-            _whoThrowsText.color = new Color(0.6f, 1f, 1f);
+            if (name == participants.Player)
+            {
+                _whoThrowsText.text = "PLAYER HITS FIRST";
+                _whoThrowsText.color = _playerColor;
+            }
+            else if (name== participants.Enemy)
+            {
+                _whoThrowsText.text = "ENEMY HITS FIRST";
+                _whoThrowsText.color = _enemyColor;
+            }
+            Invoke("DisableWhoThrowsText", 2f);
         }
-        else if(nameOfParticipant == participants.Enemy)
-        {
-            _whoThrowsText.text = "ENEMY HITS FIRST";
-            _whoThrowsText.color = new Color(1f, 0.63f, 0.63f);
-        }
-        Invoke("DisableWhoThrowsText", 2f);
+
+        
     }
-    public void ShowOutText(string objectName)
+    public void ShowOutText(participants name)
     {
         RoundHasBegan = false;
         RoundIsOver = true;
@@ -155,12 +149,13 @@ public class GameBehaviour : MonoBehaviour
 
         Text outText = _outTextObject.GetComponent<Text>();
 
-        switch (objectName)
+        switch (name)
         {
-            case "Player":
-                outText.color = new Color(0.6f, 1f, 1f);
+            case participants.Player:
+                outText.color = _playerColor;
                 break;
-            case "Enemy": outText.color = new Color(1f, 0.63f, 0.63f);
+            case participants.Enemy:
+                outText.color =_enemyColor;
                 break;
         }
 
@@ -171,63 +166,64 @@ public class GameBehaviour : MonoBehaviour
     private void DisableWhoThrowsText() => _whoThrowsText.gameObject.SetActive(false);
     private void PrintPlayerScores() => _playerScoresText.text = "" + ScoreManager.PlayerScores;
     private void PrintEnemyScores() => _enemyScoresText.text = ScoreManager.EnemyScores + "";
-    public void ShowTouchingNetText(string objectName)
+    public void ShowTouchingNetText(participants name)
     {
-        RoundHasBegan = false;
-        RoundIsOver= true;
-
-        _touchingNetTextObject.gameObject.SetActive(true);
-
-        Text touchingNetText = _touchingNetTextObject.GetComponent<Text>();
-
-        switch (objectName)
+        if(RoundIsOver == false)
         {
-            case "Player":
-                touchingNetText.color = new Color(0.6f, 1f, 1f);
-                break;
-            case "Enemy":
-                touchingNetText.color = new Color(1f, 0.63f, 0.63f);
-                break;
+            RoundHasBegan = false;
+            RoundIsOver = true;
+
+            _touchingNetTextObject.gameObject.SetActive(true);
+
+            Text touchingNetText = _touchingNetTextObject.GetComponent<Text>();
+
+            switch (name)
+            {
+                case participants.Player:
+                    touchingNetText.color = _playerColor;
+                    break;
+                case participants.Enemy:
+                    touchingNetText.color = _enemyColor;
+                    break;
+            }
+
+            Invoke("DisableTouchingNetText", 2f);
+            Invoke("RestartLevel", 2f);
         }
-
-        Invoke("DisableTouchingNetText", 2f);
-        Invoke("RestartLevel", 2f);
-
     }
     private void DisableTouchingNetText() => _touchingNetTextObject.gameObject.SetActive(false);
-    public void ShowWhoGetsPointText(string objectName)
+    public void ShowWhoGetsPointText(participants name)
     {
-        RoundIsOver = true;
-
-        if(ScoreManager.PlayerScores < ScoreManager.MaxScores && ScoreManager.EnemyScores < ScoreManager.MaxScores)
+        if(ScoreManager.PlayerScores < ScoreManager.MaxScores && ScoreManager.EnemyScores < ScoreManager.MaxScores && RoundIsOver == false)
         {
+            RoundIsOver = true;
 
             _whoGetsPointTextObject.gameObject.SetActive(true);
 
             Text whoGetsPointText = _whoGetsPointTextObject.GetComponent<Text>();
 
-            switch (objectName)
+            switch (name)
             {
-                case "Player":
+                case participants.Player:
                     whoGetsPointText.text = "PLAYER GETS A POINT!";
-                    whoGetsPointText.color = new Color(0, 0.0775275f, 0.5943396f);
+                    whoGetsPointText.color = _playerColor;
                     break;
 
-                case "Enemy":
+                case participants.Enemy:
                     whoGetsPointText.text = "ENEMY GETS A POINT!";
-                    whoGetsPointText.color = new Color(0.5283019f, 0, 0.01586957f);
+                    whoGetsPointText.color = _enemyColor;
                     break;
             }
 
+            Invoke("DisableWhoGetsPointText", 2f);
+            Invoke("RestartLevel", 2f);
         } 
-
-        Invoke("DisableWhoGetsPointText", 2f);
-        Invoke("RestartLevel", 2f);
+      
     }
     private void DisableWhoGetsPointText() => _whoGetsPointTextObject.gameObject.SetActive(false);
 
     private void ShowDoubleTouchText()
-    {
+    {     
         if (RoundHasBegan == true && RoundIsOver == false)
         {
             RoundHasBegan = false;
@@ -241,14 +237,14 @@ public class GameBehaviour : MonoBehaviour
 
             switch (LastTouched)
             {
-                case "Player":
+                case participants.Player:
                     NextRoundBeginner = participants.Enemy;
-                    doubleTouchText.color = new Color(0.6f, 1f, 1f);
+                    doubleTouchText.color = _playerColor;
                     break;
 
-                case "Enemy":
+                case participants.Enemy:
                     NextRoundBeginner = participants.Player;
-                    doubleTouchText.color = new Color(1f, 0.63f, 0.63f);
+                    doubleTouchText.color = _enemyColor;
                     break;
             }
 
@@ -258,19 +254,18 @@ public class GameBehaviour : MonoBehaviour
     }
     private void DisableDoubleTouchText() => _doubleTouchTextObject.gameObject.SetActive(false);
 
-    private string DetermineWinner()
+    private participants DetermineWinner()
     {
-        string winner = null;
+          if (ScoreManager.PlayerScores == ScoreManager.MaxScores)
+              GameWinner = participants.Player;
 
-        if (ScoreManager.PlayerScores == ScoreManager.MaxScores)
-            winner = "Player";
-        else if (ScoreManager.EnemyScores == ScoreManager.MaxScores)
-            winner = "Enemy";
+          else if (ScoreManager.EnemyScores == ScoreManager.MaxScores)
+              GameWinner = participants.Enemy;
 
-        return winner;
+          return GameWinner;
     }
    
-    private void ShowWinText(string whoWin)
+    private void ShowWinText(participants whoWin)
     {
         RoundHasBegan = false;
         RoundIsOver = true;
@@ -281,18 +276,18 @@ public class GameBehaviour : MonoBehaviour
 
         switch (whoWin)
         {
-            case "Player":
+            case participants.Player:
                 winText.text = "PlAYER WON!";
-                winText.color = new Color(0.6f, 1f, 1f);
+                winText.color = _playerColor;
                 break;
 
-            case "Enemy":
+            case participants.Enemy:
                 winText.text = "ENEMY WON!";
-                winText.color = new Color(1f, 0.63f, 0.63f);
+                winText.color = _enemyColor;
                 break;
         }
       
-        Invoke("BackToMainMenu", 2f);
+        Invoke("ExitGame", 2f);
     }
     private void DisableWinText() => _winTextObject.gameObject.SetActive(false);
     

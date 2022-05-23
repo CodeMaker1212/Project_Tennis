@@ -14,19 +14,10 @@ public class BallBehaviour : Ball
 
     private void Update()
     {
-        if(_gameBehaviour.RoundHasBegan == false && _gameBehaviour.RoundIsOver == false)
-        {
-            if (_gameBehaviour.PlayerHitsFirst == true || GameBehaviour.NextRoundBeginner == participants.Player)
-                FollowThePlayer();
-            else if(_gameBehaviour.PlayerHitsFirst == false|| GameBehaviour.NextRoundBeginner == participants.Enemy)
-                FollowTheEnemy();
-        }
-
 
         if (CourtTouchCount >= 2)
              DoubleTouch();
-        
-
+       
     }
 
     private void OnTriggerEnter(Collider other)
@@ -36,7 +27,7 @@ public class BallBehaviour : Ball
             case "Player":
                 ResetTouchCount();
                 BounceOffPlayer();
-                GameBehaviour.LastTouched = "Player";
+                GameBehaviour.LastTouched = participants.Player;
                 break;
 
 
@@ -44,7 +35,7 @@ public class BallBehaviour : Ball
             case "Enemy":
                 ResetTouchCount();
                 BounceOffEnemy();
-                GameBehaviour.LastTouched = "Enemy";
+                GameBehaviour.LastTouched = participants.Enemy;
                 break;
 
 
@@ -54,24 +45,20 @@ public class BallBehaviour : Ball
 
                 if (_gameBehaviour.RoundHasBegan == true)
                 {
-
-                   
-
-                    if (GameBehaviour.LastTouched == "Player")
+                    if (GameBehaviour.LastTouched == participants.Player)
                     {
                         GameBehaviour.NextRoundBeginner = participants.Enemy;
-                        ScoreManager.DeleteScoreFrom("Player");
-                        _gameBehaviour.ShowTouchingNetText("Player");
+                        ScoreManager.DeleteScoreFrom(participants.Player);
+                        _gameBehaviour.ShowTouchingNetText(participants.Player);
                         
                     }
-                    else if (GameBehaviour.LastTouched == "Enemy")
+                    else if (GameBehaviour.LastTouched == participants.Enemy)
                     {
                         GameBehaviour.NextRoundBeginner = participants.Player;
-                        ScoreManager.DeleteScoreFrom("Enemy");
-                        _gameBehaviour.ShowTouchingNetText("Enemy");
+                        ScoreManager.DeleteScoreFrom(participants.Enemy);
+                        _gameBehaviour.ShowTouchingNetText(participants.Enemy);
                        
-                    }
-                  
+                    }                 
                 }
                 break;
 
@@ -81,16 +68,16 @@ public class BallBehaviour : Ball
 
             case "Enemy_Border":
                 GameBehaviour.NextRoundBeginner = participants.Player;
-                ScoreManager.AddScoreTo("Player");
-                _gameBehaviour.ShowWhoGetsPointText("Player");
+                ScoreManager.AddScoreTo(participants.Player);
+                _gameBehaviour.ShowWhoGetsPointText(participants.Player);
                  break;
 
 
 
             case "Player_Border":
                 GameBehaviour.NextRoundBeginner = participants.Enemy;
-                ScoreManager.AddScoreTo("Enemy");
-                _gameBehaviour.ShowWhoGetsPointText("Enemy");
+                ScoreManager.AddScoreTo(participants.Enemy);
+                _gameBehaviour.ShowWhoGetsPointText(participants.Enemy);
                 break;
 
 
@@ -100,18 +87,18 @@ public class BallBehaviour : Ball
                 if(_gameBehaviour.RoundHasBegan == true)
                 {
 
-                    if (GameBehaviour.LastTouched == "Player")
+                    if (GameBehaviour.LastTouched == participants.Player)
                     {
                         GameBehaviour.NextRoundBeginner = participants.Enemy;
-                        ScoreManager.DeleteScoreFrom("Player");
-                        _gameBehaviour.ShowOutText("Player");
+                        ScoreManager.DeleteScoreFrom(participants.Player);
+                        _gameBehaviour.ShowOutText(participants.Player);
                        
                     }
-                    else if (GameBehaviour.LastTouched == "Enemy")
+                    else if (GameBehaviour.LastTouched == participants.Enemy)
                     {
                         GameBehaviour.NextRoundBeginner = participants.Player;
-                        ScoreManager.DeleteScoreFrom("Enemy");
-                        _gameBehaviour.ShowOutText("Enemy");
+                        ScoreManager.DeleteScoreFrom(participants.Enemy);
+                        _gameBehaviour.ShowOutText(participants.Enemy);
                        
                     }
                 }

@@ -46,11 +46,8 @@ public class Ball: MonoBehaviour
     }
     protected void BounceOffEnemy()
     {
-        if ( _gameBehaviour.GameBeginner == ProjectEnums.Enums.ParticipantsOfGame.Enemy || GameBehaviour.NextRoundBeginner == ProjectEnums.Enums.ParticipantsOfGame.Enemy)
-        {
-            _rb.velocity = Vector3.zero;
-            TakeHit(_enemy.CalculateHitForces());   
-        }
+        _rb.velocity = Vector3.zero;
+        TakeHit(_enemy.CalculateHitForces());
     }
     protected void BounceOffNet() => _rb.velocity = -_rb.velocity / 3f;
     protected void ResetTouchCount() => CourtTouchCount = 0;

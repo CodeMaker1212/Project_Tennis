@@ -33,7 +33,7 @@ class EnemyBehaviour : Enemy
             DistanceToBall = Vector3.Distance(transform.position, _ballClone.transform.position);
             Debug.Log(DistanceToBall);
 
-            if (HasHitAttempt == false && DistanceToBall < 2f)
+            if (HasHitAttempt == false && DistanceToBall < 1.6f)
                 StartHitAnimation();
         }
         

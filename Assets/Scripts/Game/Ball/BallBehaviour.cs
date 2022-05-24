@@ -25,17 +25,23 @@ public class BallBehaviour : Ball
         switch (other.name)
         {
             case "Player":
+
+                if (_gameBehaviour.RoundIsOver == false)
+                    GameBehaviour.LastTouched = participants.Player;
+
                 ResetTouchCount();
                 BounceOffPlayer();
-                GameBehaviour.LastTouched = participants.Player;
                 break;
 
 
 
             case "Enemy":
+                
+                if (_gameBehaviour.RoundIsOver == false)
+                    GameBehaviour.LastTouched = participants.Enemy;
+
                 ResetTouchCount();
                 BounceOffEnemy();
-                GameBehaviour.LastTouched = participants.Enemy;
                 break;
 
 
@@ -67,17 +73,25 @@ public class BallBehaviour : Ball
 
 
             case "Enemy_Border":
-                GameBehaviour.NextRoundBeginner = participants.Player;
-                ScoreManager.AddScoreTo(participants.Player);
-                _gameBehaviour.ShowWhoGetsPointText(participants.Player);
+                if (_gameBehaviour.RoundIsOver == false)
+                {
+                    GameBehaviour.NextRoundBeginner = participants.Player;
+                    ScoreManager.AddScoreTo(participants.Player);
+                    _gameBehaviour.ShowWhoGetsPointText(participants.Player);
+                }
                  break;
 
 
 
             case "Player_Border":
-                GameBehaviour.NextRoundBeginner = participants.Enemy;
-                ScoreManager.AddScoreTo(participants.Enemy);
-                _gameBehaviour.ShowWhoGetsPointText(participants.Enemy);
+
+                if(_gameBehaviour.RoundIsOver == false)
+                {
+                    GameBehaviour.NextRoundBeginner = participants.Enemy;
+                    ScoreManager.AddScoreTo(participants.Enemy);
+                    _gameBehaviour.ShowWhoGetsPointText(participants.Enemy);
+                }
+              
                 break;
 
 

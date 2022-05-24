@@ -75,7 +75,7 @@ public class Enemy : MonoBehaviour
     {
         _animator.SetTrigger("Enemy_Hit_Trigger");
         HasHitAttempt = true;
-        Invoke("FinishHitAttempt", 0.5f);
+        Invoke("FinishHitAttempt", 0.4f);
     }
     protected void Move()
     {

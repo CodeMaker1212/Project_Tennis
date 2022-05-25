@@ -60,13 +60,13 @@ public class GameBehaviour : MonoBehaviour
         Invoke("InitializeAndSubscribeToBall", 2f);
 
 
-        if (TutorialBehaviour.isIncluded == true)
+       if (TutorialBehaviour.isIncluded == true)
             GameBeginner = participants.Player;
         else
         {
             if (_roundsCount == 0) ShowWhoThrowsText(ChooseGameBeginner());
             else ShowWhoThrowsText(NextRoundBeginner);
-        }     
+        }    
     }
     private void Update()
     {
@@ -75,7 +75,7 @@ public class GameBehaviour : MonoBehaviour
         PrintEnemyScores();
 
 
-        if(ScoreManager.PlayerScores == ScoreManager.MaxScores || ScoreManager.EnemyScores == ScoreManager.MaxScores)
+       if(ScoreManager.PlayerScores == ScoreManager.MaxScores || ScoreManager.EnemyScores == ScoreManager.MaxScores)
             ShowWinText(DetermineWinner());
     }
 
